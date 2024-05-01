@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wordpanel/screens/levelpage/widget/leftpanel.dart';
@@ -84,13 +83,17 @@ class Catagories extends StatelessWidget {
                       color: Color.fromARGB(255, 180, 178, 178),
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: const SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Wordwidget(text: "Kelime 1",),
-                        Wordwidget(text: "Kelime 2",),
-                        Wordwidget(text: "Kelime 3",),
-                      ]
-                    ),
+                    child: Column(children: [
+                      Wordwidget(
+                        text: "Kelime 1",
+                      ),
+                      Wordwidget(
+                        text: "Kelime 2",
+                      ),
+                      Wordwidget(
+                        text: "Kelime 3",
+                      ),
+                    ]),
                   ),
                 )
               ],
@@ -102,7 +105,8 @@ class Catagories extends StatelessWidget {
 
 class Wordwidget extends StatelessWidget {
   const Wordwidget({
-    super.key, required this.text,
+    super.key,
+    required this.text,
   });
   final String text;
   @override
@@ -114,8 +118,7 @@ class Wordwidget extends StatelessWidget {
         height: 50,
         decoration: const BoxDecoration(
             color: Color.fromARGB(255, 131, 130, 130),
-            borderRadius:
-                BorderRadius.all(Radius.circular(15))),
+            borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Row(
           children: [
             const SizedBox(
@@ -228,7 +231,7 @@ class Upperbuttons extends StatelessWidget {
         ),
         CustomButton(
             width: 200,
-            text: "Yeni Level",
+            text: "Kelime ekle",
             func: () {},
             icon: const Icon(
               Icons.add_box_outlined,
