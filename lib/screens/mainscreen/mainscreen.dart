@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:wordpanel/data_bloc/receiver_block.dart';
+
+import 'package:wordpanel/models/uppercatagoriesmodel.dart';
 import 'package:wordpanel/screens/catagorypage/catagoryscreen.dart';
+import 'package:wordpanel/screens/mainscreen/widgets/catagoryitem.dart';
 import 'package:wordpanel/screens/mainscreen/widgets/custombutton.dart';
 import 'package:wordpanel/screens/mainscreen/widgets/leftpanel.dart';
 import 'package:wordpanel/utils/backrounddecaration.dart';
@@ -57,87 +60,33 @@ class Catagories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 570,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            Catagoriitem(
-              text: "Bilim",
-              func: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const Catagoryscreen();
+        height: 570,
+        child: FutureBuilder(
+          initialData: const [],
+          future: ReceiverBlock().getuppercatagories,
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                UpperCatagoriesmodel catagory = snapshot.data![index];
+                return Catagoriitem(
+                  subtitlecount: 000000000,
+                  totalwordcount: catagory.totalwordcount,
+                  text: catagory.name,
+                  func: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Catagoryscreen(
+                          catagoryname: catagory.name,
+                        );
+                      },
+                    ));
                   },
-                ));
+                );
               },
-            ),
-            Catagoriitem(
-              func: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const Catagoryscreen();
-                  },
-                ));
-              },
-              text: "Sanat",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Catagoriitem extends StatelessWidget {
-  const Catagoriitem({
-    super.key,
-    required this.text,
-    required this.func,
-  });
-  final String text;
-  final Function() func;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: func,
-        child: Container(
-          height: 120,
-          width: 750,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(111, 255, 255, 255)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  text,
-                  style: GoogleFonts.inriaSerif(
-                    textStyle: const TextStyle(letterSpacing: .5, fontSize: 40),
-                  ),
-                ),
-                Text(
-                  "Alt başlık sayısı: 2",
-                  style: GoogleFonts.inriaSerif(
-                    textStyle: const TextStyle(letterSpacing: .5, fontSize: 15),
-                  ),
-                ),
-                Text(
-                  "Toplam kelime sayısı : 2",
-                  style: GoogleFonts.inriaSerif(
-                    textStyle: const TextStyle(letterSpacing: .5, fontSize: 15),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+            );
+          },
+        ));
   }
 }
 

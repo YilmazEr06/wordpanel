@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wordpanel/models/subcatagoories.dart';
 import 'package:wordpanel/screens/catagorypage/widget/panelitems.dart';
 import 'package:wordpanel/screens/mainscreen/widgets/custombutton.dart';
-
 
 class LeftPanel extends StatelessWidget {
   const LeftPanel({
     super.key,
+    required this.changeselected,
   });
-
+  final void Function(SubCatagoriesmodel) changeselected;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +18,9 @@ class LeftPanel extends StatelessWidget {
       child: Column(
         children: [
           const Paneltext(),
-          const Panelitems(),
+          Panelitems(
+            changeselected: changeselected,
+          ),
           CustomButton(
             width: 200,
             text: "Ayarlar",

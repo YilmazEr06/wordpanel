@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wordpanel/screens/levelpage/levelscreen.dart';
+import 'package:wordpanel/data_bloc/receiver_block.dart';
+import 'package:wordpanel/models/levelmodel.dart';
+import 'package:wordpanel/models/subcatagoories.dart';
+
 
 class Catagories extends StatelessWidget {
   const Catagories({
     super.key,
+    required this.catagory,
   });
-
+  final SubCatagoriesmodel catagory;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,19 +27,19 @@ class Catagories extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Fizik',
+                  catagory.name,
                   style: GoogleFonts.irishGrover(
                     textStyle: const TextStyle(letterSpacing: .5, fontSize: 55),
                   ),
                 ),
                 Text(
-                  'Toplam kelime sayısı: 1000',
+                  'Toplam kelime sayısı: ${catagory.totalwordcount}',
                   style: GoogleFonts.irishGrover(
                     textStyle: const TextStyle(letterSpacing: .5, fontSize: 20),
                   ),
                 ),
                 Text(
-                  'Bu katagoride en yüksek skor: 1000',
+                  'Bu katagoride en yüksek skor: ${catagory.bestscor}',
                   style: GoogleFonts.irishGrover(
                     textStyle: const TextStyle(letterSpacing: .5, fontSize: 20),
                   ),
@@ -47,7 +51,7 @@ class Catagories extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '  Level sayısı: 2:',
+                  '  Level sayısı: ${catagory.levelcount}',
                   style: GoogleFonts.irishGrover(
                     textStyle: const TextStyle(letterSpacing: .5, fontSize: 20),
                   ),
@@ -65,45 +69,26 @@ class Catagories extends StatelessWidget {
                       color: Color.fromARGB(255, 180, 178, 178),
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Levelitem(
-                          level: 1,
-                          func: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return Levelscreen();
-                            },));
+                      child: FutureBuilder(
+                        initialData: const [],
+                    future: ReceiverBlock().getlevelwithsubtitle(),
+                    builder: (context, snapshot) {
+                      return Container(
+                        color: const Color.fromARGB(0, 0, 0, 0),
+                        height: 400,
+                        width: 400,
+                        child: ListView.builder(
+                        
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            LevelModel level = snapshot.data![index];
+                            return Levelitem(
+                                level: level.name , func: () {}, wordcount: level.wordcount);
                           },
-                          wordcount: 150,
                         ),
-                        Levelitem(
-                          level: 2,
-                          func: () {},
-                          wordcount: 150,
-                        ),
-                        Levelitem(
-                          level: 3,
-                          func: () {},
-                          wordcount: 150,
-                        ),
-                        Levelitem(
-                          level: 4,
-                          func: () {},
-                          wordcount: 150,
-                        ),
-                        Levelitem(
-                          level: 5,
-                          func: () {},
-                          wordcount: 150,
-                        ),
-                        Levelitem(
-                          level: 6,
-                          func: () {},
-                          wordcount: 150,
-                        ),
-                      ],
-                    ),
-                  ),
+                      );
+                    },
+                  )),
                 )
               ],
             ),
@@ -119,7 +104,7 @@ class Levelitem extends StatelessWidget {
     required this.func,
     required this.wordcount,
   });
-  final int level;
+  final String level;
   final Function() func;
   final int wordcount;
   @override
